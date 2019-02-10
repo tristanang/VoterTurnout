@@ -1,8 +1,6 @@
 from test.training_set_name import path
 import voter_turnout.io as io
 
-
-
 if __name__ == '__main__':
     df = io.readFile(path)
 
@@ -18,4 +16,6 @@ if __name__ == '__main__':
 
     print("This is the number of columns after one hotting: " + str(df.columns.size))
 
+    df.to_pickle('oneHot.pickle')
+    
     print("All tests passed")

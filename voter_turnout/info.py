@@ -7,7 +7,7 @@ jobCodes = ['PEIO1ICD', 'PEIO1OCD', 'PEIO2ICD', 'PEIO2OCD', 'PRIMIND1', 'PRIMIND
             ]
 
 toDrop += probablyDrop
-#toDrop += repeated
+
 
 weights = ['PWFMWGT', 'PWLGWGT', 'PWORWGT', 'PWSSWGT', 'PWVETWGT', 'PRCHLD', 'PWCMPWGT',\
            'HWHHWGT']
@@ -38,7 +38,7 @@ needToDealWithBlank = ['PENATVTY']
 gradient = ['HUFAMINC', 'PEAGE', 'PEEDUCA', 'PRFAMTYP', 'PRINUSYR', 'PEMLR', \
             'PEHRUSL1', 'PEHRUSLT', 'PUHROFF2', 'PUHROT2', 'PEHRACT1', 'PEHRACT2',\
              'PEHRACTT', 'PREMPHRS', 'PRHRUSL', 'PRJOBSEA', 'PRPTHRS', 'PEERN']
-difficultGradient = ['PRWKSTAT', 'PEERNPER', 'PRERNWA', 'PRCHLD']
+difficultGradient = ['PRWKSTAT', 'PEERNPER', 'PRERNWA', 'PRCHLD', 'PRERNHLY']
 # These variables are sums of two variables. Obviously they are gradient variables
 # as well. Since I made this pretty late, some variables in gradient should be here 
 # but aren't
@@ -56,8 +56,8 @@ needToCombine['jobs'] = ['PEMJOT', 'PEMJNUM']
 #Information below is expressed in other columns maybe drop?
 repeated = ['PEHRFTPT']
 
-noOneHot = dontHot + gradient + needToDealWithBlank + needToDealWithBlank + gradient\
+noOneHot = dontHot + gradient + needToDealWithBlank + needToDealWithBlank \
             + difficultGradient + sums + changeMinusOneToZero + simpleGradient\
-            + needToCombine['jobs'] + repeated + lineNumbers + weights
+            + needToCombine['jobs'] + repeated + lineNumbers + weights + ['target']
 
 
