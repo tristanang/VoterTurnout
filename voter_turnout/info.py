@@ -1,19 +1,29 @@
 toDrop = ['id', 'HRMONTH', 'HRYEAR4', 'HUTYPEA', 'HUTYPC', 'HRHHID2', 'GESTCEN', \
             ]
 
+probablyDrop = ['PEERNHRO', 'PUERN2', 'QSTNUM', 'OCCURNUM']
+
 #Information below is expressed in other columns maybe drop?
 repeated = ['PEHRFTPT']
 
+jobCodes = ['PEIO1ICD', 'PEIO1OCD', 'PEIO2ICD', 'PEIO2OCD', 'PRIMIND1', 'PRIMIND2',\
+            ]
+
+toDrop += probablyDrop
 #toDrop += repeated
+
+weights = ['PWFMWGT', 'PWLGWGT', 'PWORWGT', 'PWSSWGT', 'PWVETWGT', 'PRCHLD', 'PWCMPWGT',\
+            ]
 
 questionable = ['MONTH-IN-SAMPLE', 'HRLONGLK', 'PRTFAGE', 'PRFAMNUM', 'PRCITFLG'\
                 'PUBUSCK1', 'PUBUSCK2', 'PUBUSCK3', 'PUBUSCK4', 'PUHRCK1', 'PUHRCK2',\
                 'PUHRCK3', 'PUHRCK4', 'PUHRCK5', 'PUHRCK6', 'PUHRCK7', 'PUHRCK12',\
                 'PULAYCK1', 'PULAYCK2', 'PULAYCK3', 'PUDWCK1', 'PUDWCK2', 'PUDWCK3',\
-                'PUDWCK4', 'PUDWCK5', 'PUJHCK1', 'PUJHCK2', 'PUJHCK4', 'PUJHCK5']
+                'PUDWCK4', 'PUDWCK5', 'PUJHCK1', 'PUJHCK2', 'PUJHCK4', 'PUJHCK5',
+                'PUIOCK1', 'PUIOCK2', 'PUIOCK3']
 
 lineNumbers = ['HURESPLI', 'HUBUSL1', 'HUBUSL2', 'HUBUSL3', 'HUBUSL4', 'PEPARENT',\
-                 'PESPOUSE', 'PULINENO']
+                 'PESPOUSE', 'PULINENO', 'PELNDAD', 'PELNMOM', 'PECOHAB']
 
 cities = ['GTCBSAST', 'GTMETSTA', 'GTINDVPC']
 
@@ -24,11 +34,13 @@ cities = ['GTCBSAST', 'GTMETSTA', 'GTINDVPC']
 # I realize some blanks should be one hotted. The first one is gender.
 oneHot = ['PESEX']
 
+dontHot = ['PTWK']
+
 needToDealWithBlank = ['PENATVTY']  
 gradient = ['HUFAMINC', 'PEAGE', 'PEEDUCA', 'PRFAMTYP', 'PRINUSYR', 'PEMLR', \
             'PEHRUSL1', 'PEHRUSLT', 'PUHROFF2', 'PUHROT2', 'PEHRACT1', 'PEHRACT2',\
-             'PEHRACTT', 'PREMPHRS', 'PRHRUSL', 'PRJOBSEA', 'PRPTHRS']
-veryDifficultGradient = ['PRWKSTAT']
+             'PEHRACTT', 'PREMPHRS', 'PRHRUSL', 'PRJOBSEA', 'PRPTHRS', 'PEERN']
+difficultGradient = ['PRWKSTAT', 'PEERNPER', 'PRERNWA', 'PRCHLD']
 # These variables are sums of two variables. Obviously they are gradient variables
 # as well. Since I made this pretty late, some variables in gradient should be here 
 # but aren't
@@ -36,7 +48,8 @@ sums = ['PEHRACTT']
 
 # gradient += sum
 
-changeMinusOneToZero = ['PELAYDUR', 'PELKDUR', 'PRUNEDUR']
+# change -1 to zero are all gradients
+changeMinusOneToZero = ['PELAYDUR', 'PELKDUR', 'PRUNEDUR', 'PEERNWKP', 'PRNMCHLD']
 simpleGradient = ['HRNUMHOU', 'HUPRSCNT', 'PELAYDUR']
 
 needToCombine = {}
