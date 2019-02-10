@@ -55,4 +55,8 @@ simpleGradient = ['HRNUMHOU', 'HUPRSCNT', 'PELAYDUR']
 needToCombine = {}
 needToCombine['jobs'] = ['PEMJOT', 'PEMJNUM']
 
+noOneHot = dontHot + gradient + needToDealWithBlank + needToDealWithBlank + gradient\
+            + difficultGradient + sums + changeMinusOneToZero + simpleGradient\
+            + needToCombine['jobs']
+
 
