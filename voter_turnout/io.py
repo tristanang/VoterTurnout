@@ -33,3 +33,32 @@ def removeBlanks(df):
         remove them so they are not one-hot encoded.
     """
     return df
+
+def oneHot(df, noHot=info.noOneHot):
+    oneHot = []
+
+    for column in df.columns:
+        if column not in info.noOneHot:
+            oneHot.append(column)
+
+    for column in oneHot:
+        tempHot = pd.get_dummies(df[column],prefix=column)
+        df = df.drop(columns=column)
+        df = df.join(tempHot)
+
+    df.to_pickle('oneHotted.pickle')
+
+    return df
+
+
+
+
+
+
+
+
+
+
+
+
+
