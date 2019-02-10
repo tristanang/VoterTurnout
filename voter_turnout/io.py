@@ -14,3 +14,23 @@ def readFile(path, toDrop=info.toDrop):
     df = df.drop(columns=toDrop)
 
     return df
+
+def dropSameColumn(df):
+    """
+        Some columns have values that are all identical. We drop all of those.
+    """
+    new_df = df
+
+    for column in df.columns:
+        if df[column].unique().size == 1:
+            new_df = new_df.drop(columns=column)
+
+    return new_df
+
+
+def removeBlanks(df):
+    """
+        In the dataset, some values are -1, which are blank. This function is to
+        remove them so they are not one-hot encoded.
+    """
+    return df
