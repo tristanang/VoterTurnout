@@ -27,7 +27,6 @@ def dropSameColumn(df):
 
     return new_df
 
-
 def removeBlanks(df):
     """
         In the dataset, some values are -1, which are blank. This function is to
