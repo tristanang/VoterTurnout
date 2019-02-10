@@ -10,7 +10,8 @@ toDrop += probablyDrop
 #toDrop += repeated
 
 weights = ['PWFMWGT', 'PWLGWGT', 'PWORWGT', 'PWSSWGT', 'PWVETWGT', 'PRCHLD', 'PWCMPWGT',\
-            ]
+           'HWHHWGT']
+
 
 questionable = ['HRLONGLK', 'PRTFAGE', 'PRFAMNUM', 'PRCITFLG',\
                 'PUBUSCK1', 'PUBUSCK2', 'PUBUSCK3', 'PUBUSCK4', 'PUHRCK1', 'PUHRCK2',\

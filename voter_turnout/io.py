@@ -41,10 +41,17 @@ def oneHot(df, noHot=info.noOneHot):
         if column not in info.noOneHot:
             oneHot.append(column)
 
+    i = 0
+
     for column in oneHot:
+        print(column)
         tempHot = pd.get_dummies(df[column],prefix=column)
         df = df.drop(columns=column)
         df = df.join(tempHot)
+
+        print(i)
+
+        i += 1
 
     return df
 
