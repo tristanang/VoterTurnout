@@ -3,9 +3,6 @@ toDrop = ['id', 'HRMONTH', 'HRYEAR4', 'HUTYPEA', 'HUTYPC', 'HRHHID2', 'GESTCEN',
 
 probablyDrop = ['PEERNHRO', 'PUERN2', 'QSTNUM', 'OCCURNUM']
 
-#Information below is expressed in other columns maybe drop?
-repeated = ['PEHRFTPT']
-
 jobCodes = ['PEIO1ICD', 'PEIO1OCD', 'PEIO2ICD', 'PEIO2OCD', 'PRIMIND1', 'PRIMIND2',\
             ]
 
@@ -15,7 +12,7 @@ toDrop += probablyDrop
 weights = ['PWFMWGT', 'PWLGWGT', 'PWORWGT', 'PWSSWGT', 'PWVETWGT', 'PRCHLD', 'PWCMPWGT',\
             ]
 
-questionable = ['MONTH-IN-SAMPLE', 'HRLONGLK', 'PRTFAGE', 'PRFAMNUM', 'PRCITFLG'\
+questionable = ['HRLONGLK', 'PRTFAGE', 'PRFAMNUM', 'PRCITFLG',\
                 'PUBUSCK1', 'PUBUSCK2', 'PUBUSCK3', 'PUBUSCK4', 'PUHRCK1', 'PUHRCK2',\
                 'PUHRCK3', 'PUHRCK4', 'PUHRCK5', 'PUHRCK6', 'PUHRCK7', 'PUHRCK12',\
                 'PULAYCK1', 'PULAYCK2', 'PULAYCK3', 'PUDWCK1', 'PUDWCK2', 'PUDWCK3',\
@@ -55,8 +52,11 @@ simpleGradient = ['HRNUMHOU', 'HUPRSCNT', 'PELAYDUR']
 needToCombine = {}
 needToCombine['jobs'] = ['PEMJOT', 'PEMJNUM']
 
+#Information below is expressed in other columns maybe drop?
+repeated = ['PEHRFTPT']
+
 noOneHot = dontHot + gradient + needToDealWithBlank + needToDealWithBlank + gradient\
             + difficultGradient + sums + changeMinusOneToZero + simpleGradient\
-            + needToCombine['jobs']
+            + needToCombine['jobs'] + repeated + lineNumbers + weights
 
 

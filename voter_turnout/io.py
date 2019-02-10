@@ -46,8 +46,6 @@ def oneHot(df, noHot=info.noOneHot):
         df = df.drop(columns=column)
         df = df.join(tempHot)
 
-    df.to_pickle('oneHotted.pickle')
-
     return df
 
 
