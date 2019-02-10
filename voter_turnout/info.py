@@ -37,8 +37,8 @@ dontHot = ['PTWK']
 needToDealWithBlank = ['PENATVTY']  
 gradient = ['HUFAMINC', 'PEAGE', 'PEEDUCA', 'PRFAMTYP', 'PRINUSYR', 'PEMLR', \
             'PEHRUSL1', 'PEHRUSLT', 'PUHROFF2', 'PUHROT2', 'PEHRACT1', 'PEHRACT2',\
-             'PEHRACTT', 'PREMPHRS', 'PRHRUSL', 'PRJOBSEA', 'PRPTHRS', 'PEERN']
-difficultGradient = ['PRWKSTAT', 'PEERNPER', 'PRERNWA', 'PRCHLD', 'PRERNHLY']
+             'PREMPHRS', 'PRHRUSL', 'PRJOBSEA', 'PRPTHRS', 'PEERN']
+difficultGradient = ['PRWKSTAT', 'PEERNPER', 'PRERNWA', 'PRERNHLY']
 # These variables are sums of two variables. Obviously they are gradient variables
 # as well. Since I made this pretty late, some variables in gradient should be here 
 # but aren't
@@ -48,7 +48,7 @@ sums = ['PEHRACTT']
 
 # change -1 to zero are all gradients
 changeMinusOneToZero = ['PELAYDUR', 'PELKDUR', 'PRUNEDUR', 'PEERNWKP', 'PRNMCHLD']
-simpleGradient = ['HRNUMHOU', 'HUPRSCNT', 'PELAYDUR']
+simpleGradient = ['HRNUMHOU', 'HUPRSCNT']
 
 needToCombine = {}
 needToCombine['jobs'] = ['PEMJOT', 'PEMJNUM']
@@ -56,7 +56,7 @@ needToCombine['jobs'] = ['PEMJOT', 'PEMJNUM']
 #Information below is expressed in other columns maybe drop?
 repeated = ['PEHRFTPT']
 
-noOneHot = dontHot + gradient + needToDealWithBlank + needToDealWithBlank \
+noOneHot = dontHot + gradient + needToDealWithBlank + \
             + difficultGradient + sums + changeMinusOneToZero + simpleGradient\
             + needToCombine['jobs'] + repeated + lineNumbers + weights + ['target']
 
