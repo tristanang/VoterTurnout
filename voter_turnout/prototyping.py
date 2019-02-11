@@ -42,11 +42,11 @@ params = {}
 if __name__ == '__main__':
     X, y = loadData()
 
-    param_grid = {"n_estimators": np.arange(150), "max_depth": np.arange(30), "min_samples_leaf": np.arange(20),\
+    param_grid = {"n_estimators": np.arange(500), "max_depth": np.arange(30), "min_samples_leaf": np.arange(300),\
                   "criterion": ["gini", "entropy"],}
 
-    randomSearch = RandomizedSearchCV(estimator=model, param_distributions=param_grid, n_iter=3,\
-                                        cv=5, scoring='roc_auc', n_jobs=-1)
+    randomSearch = RandomizedSearchCV(estimator=model, param_distributions=param_grid, n_iter=1,\
+                                        cv=2, scoring='roc_auc', n_jobs=-1)
 
     randomSearch.fit(X, y)
 
@@ -56,4 +56,7 @@ if __name__ == '__main__':
     print(randomSearch.best_index_)
 
 
-    pickle.dump(randomSearch.cv_results_, "results.pickle")
+    pickle.dump(randomSearch.cv_results_, open("random.pickle", 'wb'))
+
+
+
