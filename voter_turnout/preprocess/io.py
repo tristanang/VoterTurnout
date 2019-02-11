@@ -1,6 +1,24 @@
 import pandas as pd
 import numpy as np
-from voter_turnout import (info)
+from voter_turnout import info
+from voter_turnout.preprocess import gradient
+from test.training_set_name import path
+
+def main(path):
+    df = readFile(path)
+
+    try:
+        y = df['target']  
+        y.to_pickle('target.pickle')
+        df = df.drop(columns='target')
+    except:
+        print('No target column.')
+
+    df = dropSameColumn(df)
+
+    df = oneHot(df)
+
+    return df
 
 def readFile(path, toDrop=info.toDrop):
     """ 
@@ -27,12 +45,12 @@ def dropSameColumn(df):
 
     return new_df
 
-def removeBlanks(df):
-    """
-        In the dataset, some values are -1, which are blank. This function is to
-        remove them so they are not one-hot encoded.
-    """
-    return df
+# def removeBlanks(df):
+#     """
+#         In the dataset, some values are -1, which are blank. This function is to
+#         remove them so they are not one-hot encoded.
+#     """
+#     return df
 
 def oneHot(df, noHot=info.noOneHot):
     oneHot = []
@@ -63,6 +81,9 @@ def separateInput(filename = "data/oneHot.pickle", targetName='target'):
     X.to_pickle('input.pickle')
     y.to_pickle('target.pickle')
 
+if __name__ == '__main__':
+    df = main(path)
+    df.to_pickle('data/afterIO.pickle')
 
 
 

@@ -2,17 +2,25 @@ from voter_turnout import info
 from voter_turnout.preprocess import gradient_maps
 import numpy as np
 import sys
+import pandas as pd
 
 master = gradient_maps.master
 
-def main(df, master):
+def main(df, master=master):
+    for columnName in gradient_maps.mapOnly:
+        print(columnName)
+        df = mappingVals(df, columnName, gradient_maps.maps)
+
     for columnName in master.keys():
+        print(columnName)
         df = oneHotNegatives(df, columnName)
         df = mappingVals(df, columnName)
 
+    for columnName in gradient_maps.notDone:
+        print(columnName)
+        df = oneHotNegatives(df, columnName)
+
     return df
-
-
 
 def oneHotNegatives(df, columnName):
     """
@@ -41,7 +49,7 @@ def oneHotNegatives(df, columnName):
 
     return df
 
-def mappingVals(df, columnName):
+def mappingVals(df, columnName, master=master):
 
     d = master[columnName]
 
@@ -50,3 +58,13 @@ def mappingVals(df, columnName):
 
     return df
 
+if __name__ == '__main__':
+    filepath = 'data/afterIO.pickle'
+
+    df = pd.read_pickle(filepath)
+
+    df = main(df)
+
+    print("This is the number of columns after gradienting: " + str(df.columns.size))
+
+    df.to_pickle('data/afterGradient.pickle')
