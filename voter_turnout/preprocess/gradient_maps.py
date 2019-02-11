@@ -101,10 +101,11 @@ master['PEERNPER'] = periodicity
 
 # PEMJNUM if more than one job how many jobs
 
-if __name__ == '__main__':
-    check = [] + notDone + mapOnly + lst
+toNormalize = [] + notDone + mapOnly + lst
 
-    assert len(check) == len(info.noOneHot) - 1
+if __name__ == '__main__':
+    
+    assert len(toNormalize) == len(info.noOneHot) - 1
 
     print("Tests passed")
 
