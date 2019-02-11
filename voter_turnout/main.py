@@ -10,16 +10,15 @@ from sklearn.decomposition import PCA
 import info
 
 # Import data
-file = open( "../data/oneHot.pickle", "rb" )
-df = pickle.load(file)
+file = open( "../data/input.pickle", "rb" )
+X = pickle.load(file)
 file.close
 
-print(list(df))
-
 # Separate
-nTrain = int(len(X) * 0.9)
-X_train, X_val = X[nTrain], X[len(X) - nTrain:]
-y_train, y_val = y[nTrain], y[len(y) - nTrain]
+nTrain = int(len(X) * 0.1)
+X_train = X[0:nTrain]
+X_val = X[len(X) - nTrain:]
+
 
 # Normalization
 # Scale columns
@@ -29,7 +28,7 @@ def retScaler(trainingSet, colsToScale):
     Can scale a dataset using scale(dataset, return val of this function).
     '''
     scaler = StandardScaler()
-    scaler.fit(trainingSet[:, colsToScale])
+    scaler.fit(trainingSet[colsToScale])
     return (scaler, colsToScale)
 
 
@@ -39,17 +38,18 @@ def scale(dataset, customScaler):
     '''
     scaler, colsToScale = customScaler
     newSet = dataset.copy()
-    newSet[:, colsToScale] = scaler.transform(dataset[:, colsToScale])
+    newSet[colsToScale] = scaler.transform(dataset[colsToScale])
+    return newSet
 
 # TODO change to colsToScale
 colsToScale = info.gradient
 scaler = retScaler(X_train, colsToScale)
 X_sc_train = scale(X_train, scaler)
-X_sc_test = scale(X_val, scaler)
+#X_sc_test = scale(X_val, scaler)
 
 # PCA
 pca = PCA(n_components=500)
-pca.fit(X_train)
+pca.fit(X_sc_train)
 
 # Visualize how many components needed
 plt.plot(np.cumsum(pca.explained_variance_ratio_))
