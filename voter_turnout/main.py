@@ -5,16 +5,16 @@ import pandas as pd
 import pickle
 
 from sklearn.decomposition import PCA
-import normalize
+from voter_turnout import normalize
 
-import gradient_maps 
+from voter_turnout.preprocess import gradient_maps 
 
 # Import data
-file = open( "../data/train_input.pickle", "rb" )
+file = open( "data/train_input.pickle", "rb" )
 X = pickle.load(file)
 file.close
 
-file = open( "../data/target.pickle", "rb" )
+file = open( "data/target.pickle", "rb" )
 y = pickle.load(file)
 file.close
 
