@@ -4,15 +4,16 @@ from voter_turnout import info
 from voter_turnout.preprocess import gradient
 from test.training_set_name import path
 
+
 def main(path):
     df = readFile(path)
 
-    try:
-        y = df['target']  
-        y.to_pickle('target.pickle')
-        df = df.drop(columns='target')
-    except:
-        print('No target column.')
+    # try:
+    #     y = df['target']  
+    #     y.to_pickle('target.pickle')
+    #     df = df.drop(columns='target')
+    # except:
+    #     print('No target column.')
 
     df = dropSameColumn(df)
 
