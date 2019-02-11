@@ -29,12 +29,10 @@ cities = ['GTCBSAST', 'GTMETSTA', 'GTINDVPC']
 # what shouldn't be one hotted.
 # oneHot = ['HUFINAL', 'HUSPNISH', 'HETENURE', 'HEHOUSUT', 'HETELHHD']
 
-# I realize some blanks should be one hotted. The first one is gender.
-oneHot = ['PESEX']
+boolean = ['PTWK']
 
-dontHot = ['PTWK']
+# needToDealWithBlank = ['PENATVTY'] #no longer an issue 
 
-needToDealWithBlank = ['PENATVTY']  
 gradient = ['HUFAMINC', 'PEAGE', 'PEEDUCA', 'PRFAMTYP', 'PRINUSYR', 'PEMLR', \
             'PEHRUSL1', 'PEHRUSLT', 'PUHROFF2', 'PUHROT2', 'PEHRACT1', 'PEHRACT2',\
              'PREMPHRS', 'PRHRUSL', 'PRJOBSEA', 'PRPTHRS', 'PEERN']
@@ -56,8 +54,9 @@ needToCombine['jobs'] = ['PEMJOT', 'PEMJNUM']
 #Information below is expressed in other columns maybe drop?
 repeated = ['PEHRFTPT']
 
-noOneHot = dontHot + gradient + needToDealWithBlank + \
-            + difficultGradient + sums + changeMinusOneToZero + simpleGradient\
+noOneHot = boolean + gradient \
+            + difficultGradient + sums + changeMinusOneToZero + simpleGradient \
             + needToCombine['jobs'] + repeated + lineNumbers + weights + ['target']
 
+toNormalize = []
 
