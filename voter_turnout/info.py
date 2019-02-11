@@ -1,3 +1,5 @@
+negatives = [-1, -2, -3, -9]
+
 toDrop = ['id', 'HRMONTH', 'HRYEAR4', 'HUTYPEA', 'HUTYPC', 'HRHHID2', 'GESTCEN', \
             ]
 
@@ -31,14 +33,17 @@ cities = ['GTCBSAST', 'GTMETSTA', 'GTINDVPC']
 
 boolean = ['PTWK']
 
-# needToDealWithBlank = ['PENATVTY'] #no longer an issue 
+# needToDealWithBlank = ['PENATVTY'] #no longer an issue
 
-gradient = ['HUFAMINC', 'PEAGE', 'PEEDUCA', 'PRFAMTYP', 'PRINUSYR', 'PEMLR', \
+# Gradients I have dealt with
+allGradient = []
+
+gradient = ['HUFAMINC', 'PEAGE', 'PEEDUCA', 'PRINUSYR', \
             'PEHRUSL1', 'PEHRUSLT', 'PUHROFF2', 'PUHROT2', 'PEHRACT1', 'PEHRACT2',\
              'PREMPHRS', 'PRHRUSL', 'PRJOBSEA', 'PRPTHRS', 'PEERN']
 difficultGradient = ['PRWKSTAT', 'PEERNPER', 'PRERNWA', 'PRERNHLY']
 # These variables are sums of two variables. Obviously they are gradient variables
-# as well. Since I made this pretty late, some variables in gradient should be here 
+# as well. Since I made this pretty late, some variables in gradient should be here
 # but aren't
 sums = ['PEHRACTT']
 
@@ -59,4 +64,3 @@ noOneHot = boolean + gradient \
             + needToCombine['jobs'] + repeated + lineNumbers + weights + ['target']
 
 toNormalize = []
-
