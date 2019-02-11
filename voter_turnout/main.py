@@ -9,6 +9,8 @@ from sklearn.decomposition import PCA
 
 import info
 
+import matplotlib.pyplot as plt
+
 # Import data
 file = open( "../data/input.pickle", "rb" )
 X = pickle.load(file)
@@ -45,7 +47,7 @@ def scale(dataset, customScaler):
 colsToScale = info.gradient
 scaler = retScaler(X_train, colsToScale)
 X_sc_train = scale(X_train, scaler)
-#X_sc_test = scale(X_val, scaler)
+X_sc_test = scale(X_val, scaler)
 
 # PCA
 pca = PCA(n_components=500)
@@ -56,6 +58,7 @@ plt.plot(np.cumsum(pca.explained_variance_ratio_))
 plt.xlabel('Number of components')
 plt.ylabel('Cumulative explained variance')
 
+plt.show()
 
 # Re-run PCA for components wanted
 NCOMPONENTS = 100
