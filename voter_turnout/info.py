@@ -4,6 +4,9 @@ toDrop = ['id', 'HRMONTH', 'HRYEAR4', 'HUTYPEA', 'HUTYPC', 'HRHHID2', 'GESTCEN']
 
 probablyDrop = ['PEERNHRO', 'PUERN2', 'QSTNUM', 'OCCURNUM', 'PRERNHLY']
 
+# Missing columns in test_2008
+missingColumns = ['HUTYPB']
+
 # These variables are sums of two variables. Obviously they are gradient variables
 # as well. Since I made this pretty late, some variables in gradient should be here
 # but aren't
