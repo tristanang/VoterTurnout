@@ -9,6 +9,9 @@ from voter_turnout import normalize
 
 from voter_turnout.preprocess import gradient_maps 
 
+# Save path
+save_path = "models/"
+
 # Import data
 file = open( "data/train_input.pickle", "rb" )
 X = pickle.load(file)
@@ -34,7 +37,7 @@ normalize.scale(X_train, scaler, True)
 normalize.scale(X_val, scaler, True)
 
 # Save scaler
-file = open("scaler.pickle", 'wb')
+file = open(save_path + "scaler.pickle", 'wb')
 pickle.dump(scaler, file)
 file.close()
 
@@ -71,13 +74,13 @@ train_acc = accuracy_score(clf.predict(X_train), y_train)
 val_acc = accuracy_score(clf.predict(X_val), y_val)
 
 # Save classifier
-file = open("clf.pickle", 'wb')
+file = open(save_path + "clf.pickle", 'wb')
 pickle.dump(clf, file)
 file.close()
 
 print("train accuracy: ", train_acc, "test accuracy: ", val_acc)
 
 # Save results
-f = open("results.txt", 'w')
+f = open(save_path + "results.txt", 'w')
 print("train accuracy: ", train_acc, "test accuracy: ", val_acc, file = f)
 f.close()
