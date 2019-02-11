@@ -4,6 +4,7 @@ import pickle
 
 from sklearn.model_selection import StratifiedKFold, RandomizedSearchCV
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.decomposition import PCA
 
 from voter_turnout import normalize
 from voter_turnout.preprocess import gradient_maps 
@@ -29,6 +30,20 @@ def loadData():
     pickle.dump(scaler, file)
     file.close()
 
+    # PCA
+    # From https://www.kaggle.com/pmmilewski/pca-decomposition-and-keras-neural-network
+    # Decided by trying more, looking at graph. See PCA.py
+    NCOMPONENTS = 75
+    
+    pca = PCA(n_components=NCOMPONENTS)
+    X = pca.fit_transform(X)
+    #pca_std = np.std(X_pca_train)
+    
+    # Save PCA
+    file = open(save_path + "pca.pickle", 'wb')
+    pickle.dump(scaler, file)
+    file.close()    
+
     return X, y
 
 # Save path
@@ -42,18 +57,24 @@ params = {}
 if __name__ == '__main__':
     X, y = loadData()
 
-    param_grid = {"n_estimators": np.arange(150), "max_depth": np.arange(30), "min_samples_leaf": np.arange(20),\
+    param_grid = {"n_estimators": np.arange(1,500), "max_depth": np.arange(1,30), "min_samples_leaf": np.arange(1,300),\
                   "criterion": ["gini", "entropy"],}
 
-    randomSearch = RandomizedSearchCV(estimator=model, param_distributions=param_grid, n_iter=3,\
-                                        cv=5, scoring='roc_auc', n_jobs=-1)
+    for i in range(20):
+        print(i)
 
-    randomSearch.fit(X, y)
+        randomSearch = RandomizedSearchCV(estimator=model, param_distributions=param_grid, n_iter=10,\
+                                            cv=5, scoring='roc_auc', n_jobs=-1, return_train_score=True,)
+        try:
+            randomSearch.fit(X, y)
 
-    print(randomSearch.best_estimator_)
-    print(randomSearch.best_score_)
-    print(randomSearch.best_params_)
-    print(randomSearch.best_index_)
+            
+            print(randomSearch.best_score_)
+            print(randomSearch.best_params_)
+            print(randomSearch.best_index_)
+
+            pickle.dump(randomSearch.cv_results_, open("random{}.pickle".format(i), 'wb'))
+        except:
+            print("fuck")
 
 
-    pickle.dump(randomSearch.cv_results_, "results.pickle")
