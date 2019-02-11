@@ -1,3 +1,5 @@
+negatives = [-1, -2, -3, -9]
+
 toDrop = ['id', 'HRMONTH', 'HRYEAR4', 'HUTYPEA', 'HUTYPC', 'HRHHID2', 'GESTCEN', \
             ]
 
@@ -7,7 +9,7 @@ jobCodes = ['PEIO1ICD', 'PEIO1OCD', 'PEIO2ICD', 'PEIO2OCD', 'PRIMIND1', 'PRIMIND
             ]
 
 toDrop += probablyDrop
-#toDrop += repeated
+
 
 weights = ['PWFMWGT', 'PWLGWGT', 'PWORWGT', 'PWSSWGT', 'PWVETWGT', 'PRCHLD', 'PWCMPWGT',\
            'HWHHWGT']
@@ -29,16 +31,17 @@ cities = ['GTCBSAST', 'GTMETSTA', 'GTINDVPC']
 # what shouldn't be one hotted.
 # oneHot = ['HUFINAL', 'HUSPNISH', 'HETENURE', 'HEHOUSUT', 'HETELHHD']
 
-# I realize some blanks should be one hotted. The first one is gender.
-oneHot = ['PESEX']
+boolean = ['PTWK']
 
-dontHot = ['PTWK']
+# needToDealWithBlank = ['PENATVTY'] #no longer an issue 
 
-needToDealWithBlank = ['PENATVTY']  
-gradient = ['HUFAMINC', 'PEAGE', 'PEEDUCA', 'PRFAMTYP', 'PRINUSYR', 'PEMLR', \
+# Gradients I have dealt with
+allGradient = [] 
+
+gradient = ['HUFAMINC', 'PEAGE', 'PEEDUCA', 'PRINUSYR', \
             'PEHRUSL1', 'PEHRUSLT', 'PUHROFF2', 'PUHROT2', 'PEHRACT1', 'PEHRACT2',\
-             'PEHRACTT', 'PREMPHRS', 'PRHRUSL', 'PRJOBSEA', 'PRPTHRS', 'PEERN']
-difficultGradient = ['PRWKSTAT', 'PEERNPER', 'PRERNWA', 'PRCHLD']
+             'PREMPHRS', 'PRHRUSL', 'PRJOBSEA', 'PRPTHRS', 'PEERN']
+difficultGradient = ['PRWKSTAT', 'PEERNPER', 'PRERNWA', 'PRERNHLY']
 # These variables are sums of two variables. Obviously they are gradient variables
 # as well. Since I made this pretty late, some variables in gradient should be here 
 # but aren't
@@ -48,7 +51,7 @@ sums = ['PEHRACTT']
 
 # change -1 to zero are all gradients
 changeMinusOneToZero = ['PELAYDUR', 'PELKDUR', 'PRUNEDUR', 'PEERNWKP', 'PRNMCHLD']
-simpleGradient = ['HRNUMHOU', 'HUPRSCNT', 'PELAYDUR']
+simpleGradient = ['HRNUMHOU', 'HUPRSCNT']
 
 needToCombine = {}
 needToCombine['jobs'] = ['PEMJOT', 'PEMJNUM']
@@ -56,8 +59,9 @@ needToCombine['jobs'] = ['PEMJOT', 'PEMJNUM']
 #Information below is expressed in other columns maybe drop?
 repeated = ['PEHRFTPT']
 
-noOneHot = dontHot + gradient + needToDealWithBlank + needToDealWithBlank + gradient\
-            + difficultGradient + sums + changeMinusOneToZero + simpleGradient\
-            + needToCombine['jobs'] + repeated + lineNumbers + weights
+noOneHot = boolean + gradient \
+            + difficultGradient + sums + changeMinusOneToZero + simpleGradient \
+            + needToCombine['jobs'] + repeated + lineNumbers + weights + ['target']
 
+toNormalize = []
 
