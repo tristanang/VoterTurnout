@@ -4,67 +4,83 @@ import numpy as np
 import pandas as pd
 import pickle
 
-from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
+from voter_turnout import normalize
 
-import info
+from voter_turnout.preprocess import gradient_maps 
 
-import matplotlib.pyplot as plt
+# Save path
+save_path = "models/"
 
 # Import data
-file = open( "../data/input.pickle", "rb" )
+file = open( "data/train_input.pickle", "rb" )
 X = pickle.load(file)
 file.close
 
-# Separate
-nTrain = int(len(X) * 0.1)
-X_train = X[0:nTrain]
-X_val = X[len(X) - nTrain:]
+file = open( "data/target.pickle", "rb" )
+y = pickle.load(file)
+file.close
 
+# Separate validation and training set
+nTrain = int(len(X) * 0.9)
+X_train = X.iloc[0:nTrain, :]
+X_val = X.iloc[len(X) - nTrain:, :]
+y_train = y.iloc[0:nTrain]
+y_val = y.iloc[len(y) - nTrain:]
 
 # Normalization
-# Scale columns
-def retScaler(trainingSet, colsToScale):
-    '''
-    Returns a scaler for the specified columns and training set.
-    Can scale a dataset using scale(dataset, return val of this function).
-    '''
-    scaler = StandardScaler()
-    scaler.fit(trainingSet[colsToScale])
-    return (scaler, colsToScale)
-
-
-def scale(dataset, customScaler):
-    '''
-    Returns a copy of dataset with columns scaled as setup by customScaler.
-    '''
-    scaler, colsToScale = customScaler
-    newSet = dataset.copy()
-    newSet[colsToScale] = scaler.transform(dataset[colsToScale])
-    return newSet
-
 # TODO change to colsToScale
-colsToScale = info.gradient
-scaler = retScaler(X_train, colsToScale)
-X_sc_train = scale(X_train, scaler)
-X_sc_test = scale(X_val, scaler)
+colsToScale = gradient_maps.toNormalize
+# Use this for all normalizations
+scaler = normalize.retScaler(X_train, colsToScale)
+normalize.scale(X_train, scaler, True)
+normalize.scale(X_val, scaler, True)
+
+# Save scaler
+file = open(save_path + "scaler.pickle", 'wb')
+pickle.dump(scaler, file)
+file.close()
+
+
 
 # PCA
-pca = PCA(n_components=500)
-pca.fit(X_sc_train)
+'''pca = PCA(n_components=500)
+pca.fit(X_train)
 
 # Visualize how many components needed
 plt.plot(np.cumsum(pca.explained_variance_ratio_))
 plt.xlabel('Number of components')
 plt.ylabel('Cumulative explained variance')
 
-plt.show()
 
 # Re-run PCA for components wanted
 NCOMPONENTS = 100
 
 pca = PCA(n_components=NCOMPONENTS)
 X_pca_train = pca.fit_transform(X_sc_train)
-X_pca_test = pca.transform(X_sc_test)
+#X_pca_test = pca.transform(X_sc_test)
 pca_std = np.std(X_pca_train)
+'''
 
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+clf = RandomForestClassifier(n_estimators = 200, max_depth = 20, criterion='gini')
+
+clf.fit(X_train, y_train)
+
+train_acc = accuracy_score(clf.predict(X_train), y_train)
+val_acc = accuracy_score(clf.predict(X_val), y_val)
+
+# Save classifier
+file = open(save_path + "clf.pickle", 'wb')
+pickle.dump(clf, file)
+file.close()
+
+print("train accuracy: ", train_acc, "test accuracy: ", val_acc)
+
+# Save results
+f = open(save_path + "results.txt", 'w')
+print("train accuracy: ", train_acc, "test accuracy: ", val_acc, file = f)
+f.close()
