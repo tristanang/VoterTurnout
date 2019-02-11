@@ -6,7 +6,6 @@ import pickle
 
 import matplotlib.pyplot as plt
 
-from sklearn.decomposition import PCA
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, roc_auc_score
 
@@ -32,8 +31,8 @@ skf = StratifiedKFold(n_splits=5)
 train_aucs, val_aucs = [], []
 #for train_index, test_index in skf.split(X, y):
 for train_index, test_index in [[list(range(nTrain)), list(range(nTrain, len(y)))],]:
-    X_train = X.iloc[train_index, :]
-    X_val = X.iloc[test_index, :]
+    X_train = X[train_index]
+    X_val = X[test_index]
     y_train = y.iloc[train_index]
     y_val = y.iloc[test_index] 
     
