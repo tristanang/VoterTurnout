@@ -7,8 +7,8 @@ warnings.filterwarnings(action='ignore', category=DataConversionWarning)
 
 # Supress pandas dataframe copy warning
 # Supress conversion warnings
-from pandas.exceptions import SettingWithCopyWarning
-warnings.filterwarnings(action='ignore', category=SettingWithCopyWarning)
+#from pandas.exceptions import SettingWithCopyWarning
+#warnings.filterwarnings(action='ignore', category=SettingWithCopyWarning)
 
 # Scale columns
 

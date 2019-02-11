@@ -10,7 +10,7 @@ from sklearn.metrics import accuracy_score
 from voter_turnout import normalize
 
 # Path with model info
-path = "models/forest, 200, 20/"
+path = "models/forest, 100, 25/"
 
 # Import scaler, classifier
 file = open( path + "scaler.pickle", "rb" )

@@ -24,9 +24,11 @@ y = pickle.load(file)
 file.close
 
 # Separate validation and training set
+nTrain = int(len(y) * 1)
 skf = StratifiedKFold(n_splits=5)
-for train_index, test_index in skf.split(X, y):
-    nTrain = int(len(X) * 0.9)
+train_aucs, val_aucs = [], []
+#for train_index, test_index in skf.split(X, y):
+for train_index, test_index in [[list(range(nTrain)), list(range(nTrain, len(y)))],]:
     X_train = X.iloc[train_index, :]
     X_val = X.iloc[test_index, :]
     y_train = y.iloc[train_index]
@@ -38,7 +40,7 @@ for train_index, test_index in skf.split(X, y):
     # Use this for all normalizations
     scaler = normalize.retScaler(X_train, colsToScale)
     normalize.scale(X_train, scaler, True)
-    normalize.scale(X_val, scaler, True)
+    #normalize.scale(X_val, scaler, True)
     
     # Save scaler
     file = open(save_path + "scaler.pickle", 'wb')
@@ -76,11 +78,14 @@ for train_index, test_index in skf.split(X, y):
     
     # Classification accuracy
     train_acc = accuracy_score(clf.predict(X_train), y_train)
-    val_acc = accuracy_score(clf.predict(X_val), y_val)
+    #val_acc = accuracy_score(clf.predict(X_val), y_val)
     
     # Area under the ROC curve
     train_auc = roc_auc_score(y_train, clf.predict_proba(X_train)[:, 1])
-    val_auc =  roc_auc_score(y_val, clf.predict_proba(X_val)[:, 1])
+    #val_auc =  roc_auc_score(y_val, clf.predict_proba(X_val)[:, 1])
+    
+    train_aucs.append(train_auc)
+    #val_aucs.append(val_auc)
     
     # Save classifier
     file = open(save_path + "clf.pickle", 'wb')
@@ -90,6 +95,8 @@ for train_index, test_index in skf.split(X, y):
     print()
     print("train accuracy: ", train_acc, "test accuracy: ", val_acc)
     print("train AUC: ", train_auc, "test AUC: ", val_auc)
+    print("ave train AUC: ", np.mean(train_aucs), "ave test AUC: ", np.mean(val_aucs))
+    
     
     # Save results
     f = open(save_path + "results.txt", 'w')
@@ -97,3 +104,6 @@ for train_index, test_index in skf.split(X, y):
           "\ntrain AUC: ", train_auc, "test AUC: ", val_auc, \
           file = f)
     f.close()
+    
+print("FINAL ave train AUC: ", np.mean(train_aucs), "ave test AUC: ", np.mean(val_aucs))
+
