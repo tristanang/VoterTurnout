@@ -35,7 +35,7 @@ for n_components in [50, 75, 100, 200, 500, 1000]:
     # Save PCA
     print('{}/pca_{}.pickle'.format(save_path, n_components))
     file = open('{}/pca_{}.pickle'.format(save_path, n_components), 'wb')
-    pickle.dump(scaler, file)
+    pickle.dump(pca, file)
     file.close()  
     
     # Save transformed data

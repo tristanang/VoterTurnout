@@ -48,7 +48,6 @@ for train_index, test_index in [[list(range(nTrain)), list(range(nTrain, len(y))
     print('Test accuracy:', score[1])
     print('In-sample accuracy:', in_sample_score[1])
 
-
     
     # Classification accuracy
     #train_acc = accuracy_score(clf.predict(X_train), y_train)
