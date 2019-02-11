@@ -71,7 +71,7 @@ for train_index, test_index in skf.split(X, y):
     # Train a model
     from voter_turnout import tree
     clf = tree.forest(X_train, y_train,
-                      n_estimators = 50, max_depth = 15, min_samples_leaf = 5)
+                      n_estimators = 100, max_depth = 15, min_samples_leaf = 5)
     
     # Classification accuracy
     train_acc = accuracy_score(clf.predict(X_train), y_train)
