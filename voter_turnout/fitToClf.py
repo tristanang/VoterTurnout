@@ -10,7 +10,7 @@ from sklearn.metrics import accuracy_score
 import normalize
 
 # Path with model info
-path = "voter_turnout/forest, 100, 20/"
+path = "models/forest, 100, 20/"
 
 # Import scaler, classifier
 file = open( path + "scaler.pickle", "rb" )
@@ -41,4 +41,4 @@ arr.columns = ["target"]
 print(arr)
 
 # Export
-arr.to_csv("predicted_target.csv")
+arr.to_csv(path + "predicted_target.csv")
