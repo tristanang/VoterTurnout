@@ -5,6 +5,8 @@ import pandas as pd
 import pickle
 
 from sklearn.decomposition import PCA
+from sklearn.model_selection import StratifiedKFold
+
 from voter_turnout import normalize
 
 from voter_turnout.preprocess import gradient_maps 
@@ -22,6 +24,7 @@ y = pickle.load(file)
 file.close
 
 # Separate validation and training set
+#skf = StratifiedKFold(n_splits=2)
 nTrain = int(len(X) * 0.9)
 X_train = X.iloc[0:nTrain, :]
 X_val = X.iloc[len(X) - nTrain:, :]
@@ -64,14 +67,19 @@ pca_std = np.std(X_pca_train)
 
 
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, roc_auc_score
 
 clf = RandomForestClassifier(n_estimators = 200, max_depth = 20, criterion='gini')
 
 clf.fit(X_train, y_train)
 
+# Classification accuracy
 train_acc = accuracy_score(clf.predict(X_train), y_train)
 val_acc = accuracy_score(clf.predict(X_val), y_val)
+
+# Area under the ROC curve
+train_auc = roc_auc_score(y_train, clf.predict_proba(X_train)[:, 1])
+val_auc =  roc_auc_score(y_val, clf.predict_proba(X_val)[:, 1])
 
 # Save classifier
 file = open(save_path + "clf.pickle", 'wb')
@@ -79,8 +87,11 @@ pickle.dump(clf, file)
 file.close()
 
 print("train accuracy: ", train_acc, "test accuracy: ", val_acc)
+print("train AUC: ", train_auc, "test AUC: ", val_auc)
 
 # Save results
 f = open(save_path + "results.txt", 'w')
-print("train accuracy: ", train_acc, "test accuracy: ", val_acc, file = f)
+print("train accuracy: ", train_acc, "test accuracy: ", val_acc, \
+      "\ntrain AUC: ", train_auc, "test AUC: ", val_auc, \
+      file = f)
 f.close()
