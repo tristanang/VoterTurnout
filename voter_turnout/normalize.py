@@ -1,5 +1,15 @@
 from sklearn.preprocessing import StandardScaler
 
+# Supress conversion warnings
+import warnings
+from sklearn.exceptions import DataConversionWarning
+warnings.filterwarnings(action='ignore', category=DataConversionWarning)
+
+# Supress pandas dataframe copy warning
+# Supress conversion warnings
+from pandas.exceptions import SettingWithCopyWarning
+warnings.filterwarnings(action='ignore', category=SettingWithCopyWarning)
+
 # Scale columns
 
 def retScaler(trainingSet, colsToScale):
@@ -22,5 +32,5 @@ def scale(dataset, customScaler, inPlace = False):
         return dataset
     else:
         newSet = dataset.copy()
-        newSet.loc[:, colsToScale] = scaler.transform(dataset.loc[:, colsToScale])
+        #newSet.loc[:, colsToScale] = scaler.transform(dataset.loc[:, colsToScale])
         return newSet

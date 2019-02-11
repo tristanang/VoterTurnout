@@ -70,7 +70,7 @@ for train_index, test_index in skf.split(X, y):
     from sklearn.ensemble import RandomForestClassifier
     from sklearn.metrics import accuracy_score, roc_auc_score
     
-    clf = RandomForestClassifier(n_estimators = 100, max_depth = 25, criterion='gini')
+    clf = RandomForestClassifier(n_estimators = 100, max_depth = 20, criterion='gini')
     
     clf.fit(X_train, y_train)
     
