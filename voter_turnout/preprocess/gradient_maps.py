@@ -105,6 +105,7 @@ toNormalize = [] + notDone + mapOnly + lst
 
 if __name__ == '__main__':
     
+    assert len(notDone) == len(info.boolean) + len(info.lineNumbers) + len(info.weights)
     assert len(toNormalize) == len(info.noOneHot) - 1
 
     print("Tests passed")

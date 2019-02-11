@@ -45,8 +45,8 @@ needToCombine['jobs'] = ['PEMJNUM'] #'PEMJOT'
 repeated = ['PEHRFTPT']
 
 noOneHot = boolean + gradient \
-            + difficultGradient + sums + changeMinusOneToZero + simpleGradient \
-            + needToCombine['jobs'] + repeated + lineNumbers + weights + ['target']
+            + difficultGradient + changeMinusOneToZero + simpleGradient \
+            + needToCombine['jobs'] + lineNumbers + weights + ['target']
 
 # Not used right now
 # jobCodes = ['PEIO1ICD', 'PEIO1OCD', 'PEIO2ICD', 'PEIO2OCD', 'PRIMIND1', 'PRIMIND2']
