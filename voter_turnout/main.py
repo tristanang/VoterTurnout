@@ -1,11 +1,14 @@
-# From https://www.kaggle.com/pmmilewski/pca-decomposition-and-keras-neural-network
+
 
 import numpy as np
 import pandas as pd
 import pickle
 
+import matplotlib.pyplot as plt
+
 from sklearn.decomposition import PCA
 from sklearn.model_selection import StratifiedKFold
+from sklearn.metrics import accuracy_score, roc_auc_score
 
 from voter_turnout import normalize
 
@@ -24,23 +27,22 @@ y = pickle.load(file)
 file.close
 
 # Separate validation and training set
-nTrain = int(len(y) * 1)
+nTrain = int(len(y) * 0.98)
 skf = StratifiedKFold(n_splits=5)
 train_aucs, val_aucs = [], []
-#for train_index, test_index in skf.split(X, y):
-for train_index, test_index in [[list(range(nTrain)), list(range(nTrain, len(y)))],]:
+for train_index, test_index in skf.split(X, y):
+#for train_index, test_index in [[list(range(nTrain)), list(range(nTrain, len(y)))],]:
     X_train = X.iloc[train_index, :]
     X_val = X.iloc[test_index, :]
     y_train = y.iloc[train_index]
     y_val = y.iloc[test_index]
     
     # Normalization
-    # TODO change to colsToScale
     colsToScale = gradient_maps.toNormalize
     # Use this for all normalizations
     scaler = normalize.retScaler(X_train, colsToScale)
     normalize.scale(X_train, scaler, True)
-    #normalize.scale(X_val, scaler, True)
+    normalize.scale(X_val, scaler, True)
     
     # Save scaler
     file = open(save_path + "scaler.pickle", 'wb')
@@ -48,55 +50,49 @@ for train_index, test_index in [[list(range(nTrain)), list(range(nTrain, len(y))
     file.close()
     
     
-    
     # PCA
-    '''pca = PCA(n_components=500)
-    pca.fit(X_train)
-    
-    # Visualize how many components needed
-    plt.plot(np.cumsum(pca.explained_variance_ratio_))
-    plt.xlabel('Number of components')
-    plt.ylabel('Cumulative explained variance')
-    
-    
-    # Re-run PCA for components wanted
-    NCOMPONENTS = 100
+    # From https://www.kaggle.com/pmmilewski/pca-decomposition-and-keras-neural-network
+    # Decided by trying more, looking at graph. See PCA.py
+    NCOMPONENTS = 75
     
     pca = PCA(n_components=NCOMPONENTS)
-    X_pca_train = pca.fit_transform(X_sc_train)
-    #X_pca_test = pca.transform(X_sc_test)
-    pca_std = np.std(X_pca_train)
-    '''
+    X_train = pca.fit_transform(X_train)
+    X_val = pca.transform(X_val)
+    #pca_std = np.std(X_pca_train)
+    
+    # Save PCA
+    file = open(save_path + "pca.pickle", 'wb')
+    pickle.dump(scaler, file)
+    file.close()    
     
     
-    from sklearn.ensemble import RandomForestClassifier
-    from sklearn.metrics import accuracy_score, roc_auc_score
     
-    clf = RandomForestClassifier(n_estimators = 100, max_depth = 25, criterion='gini')
     
-    clf.fit(X_train, y_train)
+    # Train a model
+    from voter_turnout import tree
+    clf = tree.forest(X_train, y_train,
+                      n_estimators = 50, max_depth = 15, min_samples_leaf = 5)
     
     # Classification accuracy
     train_acc = accuracy_score(clf.predict(X_train), y_train)
-    #val_acc = accuracy_score(clf.predict(X_val), y_val)
+    val_acc = accuracy_score(clf.predict(X_val), y_val)
     
     # Area under the ROC curve
     train_auc = roc_auc_score(y_train, clf.predict_proba(X_train)[:, 1])
-    #val_auc =  roc_auc_score(y_val, clf.predict_proba(X_val)[:, 1])
+    val_auc =  roc_auc_score(y_val, clf.predict_proba(X_val)[:, 1])
     
     train_aucs.append(train_auc)
-    #val_aucs.append(val_auc)
-    
-    # Save classifier
-    file = open(save_path + "clf.pickle", 'wb')
-    pickle.dump(clf, file)
-    file.close()
+    val_aucs.append(val_auc)
     
     print()
     print("train accuracy: ", train_acc, "test accuracy: ", val_acc)
     print("train AUC: ", train_auc, "test AUC: ", val_auc)
     print("ave train AUC: ", np.mean(train_aucs), "ave test AUC: ", np.mean(val_aucs))
     
+    # Save classifier
+    file = open(save_path + "clf.pickle", 'wb')
+    pickle.dump(clf, file)
+    file.close()    
     
     # Save results
     f = open(save_path + "results.txt", 'w')
