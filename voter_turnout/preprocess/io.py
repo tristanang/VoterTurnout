@@ -8,12 +8,12 @@ from test.training_set_name import path
 def main(path):
     df = readFile(path)
 
-    # try:
-    #     y = df['target']  
-    #     y.to_pickle('target.pickle')
-    #     df = df.drop(columns='target')
-    # except:
-    #     print('No target column.')
+    try:
+        y = df['target']  
+        #y.to_pickle('target.pickle')
+        df = df.drop(columns='target')
+    except:
+        print('No target column.')
 
     df = dropSameColumn(df)
 
@@ -81,6 +81,14 @@ def separateInput(filename = "data/oneHot.pickle", targetName='target'):
     # Store
     X.to_pickle('input.pickle')
     y.to_pickle('target.pickle')
+
+def trim(df, filename='voter_turnout/preprocess/dropColumns.txt'):
+    file = open(filename, 'r')
+    toDrop = [line.strip() for line in file.readlines()]
+
+    df = df.drop(columns=toDrop)
+
+    return df
 
 if __name__ == '__main__':
     df = main(path)
