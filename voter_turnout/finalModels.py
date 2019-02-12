@@ -23,7 +23,7 @@ print(datetime.datetime.now())
 save_path = "models/"
 
 # Import data
-file = open( "data/for_2012_train_set_v1.pickle", "rb" )
+file = open( "data/for_2012_train_set_v1_some_features.pickle", "rb" )
 X = pickle.load(file)
 X_train = np.array(X)
 file.close
@@ -33,18 +33,11 @@ y_train = pickle.load(file)
 file.close
 
 # Input params
-params = [{'n_estimators': 136, 'learning_rate': 0.24285714285714288, \
-            'base_estimator': RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',\
-            max_depth=8, max_features='auto', max_leaf_nodes=None,\
-            min_impurity_decrease=0.0, min_impurity_split=None,\
-            min_samples_leaf=1, min_samples_split=2,\
-            min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=None,\
-            oob_score=False, random_state=None, verbose=0,\
-            warm_start=False)}, ]
+params = [None, ]
 
 for i, param in enumerate(params):
     print(param)
-    save_path = "models/adaboost 2012/"
+    save_path = "models/adaboost regularized 2012/"
     
     # Train a model
     clf = tree.boost(X_train, y_train, param)
@@ -67,14 +60,14 @@ for i, param in enumerate(params):
     X_test = pickle.load(file)
     file.close
     
-    '''
+    
     # Import feature selection
-    file = open( "data/selectFeature/select_feature.pickle", "rb" )
+    file = open( "data/selectFeature 2012/select_feature.pickle", "rb" )
     feature = pickle.load(file)
     file.close
     # Transform
     X_test = feature.transform(X_test)
-    '''
+    
     
     # Predict
     # Probability
