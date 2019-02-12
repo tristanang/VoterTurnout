@@ -9,15 +9,13 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, roc_auc_score
 
-from voter_turnout import normalize
-
-from voter_turnout.preprocess import gradient_maps 
+ 
 
 # Save path
 save_path = "models/"
 
 # Import data
-file = open( "data/train_input_select_features.pickle", "rb" )
+file = open( "data/train_input_norm_PCA500.pickle", "rb" )
 X = pickle.load(file)
 file.close
 
@@ -26,9 +24,12 @@ y = pickle.load(file)
 y = np.array(y)
 file.close
 
+print([val for val in np.max(X, axis=0) if val > 10])
+
+exit()
 # Separate validation and training set
 nTrain = int(len(y) * 0.9)
-skf = StratifiedKFold(n_splits=5)
+skf = StratifiedKFold(n_splits=3)
 train_aucs, val_aucs = [], []
 for train_index, test_index in skf.split(X, y):
 #for train_index, test_index in [[list(range(nTrain)), list(range(nTrain, len(y)))],]:

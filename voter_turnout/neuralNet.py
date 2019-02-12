@@ -11,7 +11,7 @@ def neuralNet(X, y, X_val = None, y_val = None):
     model = Sequential()
     
     # Add layers
-    model.add(Dense(200))
+    model.add(Dense(100))
     model.add(Activation('relu'))
     
     model.add(Dense(100))
@@ -19,7 +19,7 @@ def neuralNet(X, y, X_val = None, y_val = None):
     
     # Add a sigmoid layer to output probability
     model.add(Dense(1))
-    model.add(Activation('sigmoid'))
+    model.add(Activation('softmax'))
     
     
     # Binary classification so use binary_crossentropy
