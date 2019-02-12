@@ -11,8 +11,8 @@ from sklearn.feature_selection import SelectFromModel
 
 
 # Save path
-save_path = "data/"
-name = "data/train_input"
+save_path = "data/adaboost regularized 2012"
+name = "data/for_2012_train_set_v1"
 
 # Import data
 file = open( "{}.pickle".format(name), "rb" )
@@ -58,6 +58,6 @@ file.close()
 # Output which columns are kept
 colsKept = model.transform([X.columns.values, ])
 # Save results
-f = open("data/cols_kept.txt", 'w')
+f = open(save_path + "cols_kept.txt", 'w')
 print(colsKept[0], file = f)
 f.close()
