@@ -31,7 +31,7 @@ file.close
 
 # Separate validation and training set
 nTrain = int(len(y) * 0.98)
-skf = StratifiedKFold(n_splits=3)
+skf = StratifiedKFold(n_splits=5)
 train_aucs, val_aucs = [], []
 for train_index, test_index in skf.split(X, y):
 #for train_index, test_index in [[list(range(nTrain)), list(range(nTrain, len(y)))],]:

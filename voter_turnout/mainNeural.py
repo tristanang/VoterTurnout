@@ -17,7 +17,7 @@ from voter_turnout.preprocess import gradient_maps
 save_path = "models/"
 
 # Import data
-file = open( "data/train_input_norm_PCA500.pickle", "rb" )
+file = open( "data/train_input_select_features.pickle", "rb" )
 X = pickle.load(file)
 file.close
 
@@ -42,18 +42,6 @@ for train_index, test_index in skf.split(X, y):
     from voter_turnout import neuralNet
     clf = neuralNet.neuralNet(X_train, y_train, X_val, y_val)
     
-    ## Printing the accuracy of our model, according to the loss function specified in model.compile above
-    #score = model.evaluate(X_test, y_test, verbose=0)
-    #in_sample_score = model.evaluate(X_train, y_train, verbose=0)
-    #print('Test score:', score[0])
-    #print('Test accuracy:', score[1])
-    #print('In-sample accuracy:', in_sample_score[1])
-
-    
-    # Classification accuracy
-    #train_acc = accuracy_score(clf.predict(X_train), y_train)
-    #val_acc = accuracy_score(clf.predict(X_val), y_val)
-    
     # Area under the ROC curve
     train_auc = roc_auc_score(y_train, clf.predict(X_train))
     val_auc =  roc_auc_score(y_val, clf.predict(X_val))
@@ -62,7 +50,6 @@ for train_index, test_index in skf.split(X, y):
     val_aucs.append(val_auc)
     
     print()
-    #print("train accuracy: ", train_acc, "test accuracy: ", val_acc)
     print("train AUC: ", train_auc, "test AUC: ", val_auc)
     print("ave train AUC: ", np.mean(train_aucs), "ave test AUC: ", np.mean(val_aucs))
     
@@ -73,7 +60,6 @@ for train_index, test_index in skf.split(X, y):
     
     # Save results
     f = open(save_path + "results.txt", 'w')
-     #"train accuracy: ", train_acc, "test accuracy: ", val_acc, \
     print(\
           "\ntrain AUC: ", train_auc, "test AUC: ", val_auc, \
           "ave train AUC: ", np.mean(train_aucs), "ave test AUC: ", np.mean(val_aucs), \

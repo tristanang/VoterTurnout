@@ -24,7 +24,7 @@ def extra_random_forest(X, y, n_estimators = 100, max_depth = 15, min_samples_le
 
 
 def boost(X, y):
-    clf = AdaBoostClassifier(n_estimators=200, base_estimator=ExtraTreesClassifier(max_depth=4, n_estimators=10, n_jobs=-1), learning_rate=0.7)
+    clf = AdaBoostClassifier(n_estimators=100, base_estimator=ExtraTreesClassifier(max_depth=5, n_estimators=10, n_jobs=-1), learning_rate=0.3)
     clf.fit(X, y)
     return clf
 
