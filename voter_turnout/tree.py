@@ -1,6 +1,6 @@
 # Code from set 3
 
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier, AdaBoostClassifier
 
 def forest(X, y, n_estimators = 100, max_depth = 15, min_samples_leaf = 5):
     clf = RandomForestClassifier(n_estimators = n_estimators, 
@@ -10,6 +10,22 @@ def forest(X, y, n_estimators = 100, max_depth = 15, min_samples_leaf = 5):
     
     clf.fit(X, y)
     
+    return clf
+
+def extra_random_forest(X, y, n_estimators = 100, max_depth = 15, min_samples_leaf = 5):
+    clf = ExtraTreesClassifier(n_estimators = n_estimators, 
+                                 max_depth = max_depth, 
+                                 min_samples_leaf = min_samples_leaf,
+                                 criterion='gini')
+    
+    clf.fit(X, y)
+    
+    return clf
+
+
+def boost(X, y):
+    clf = AdaBoostClassifier(n_estimators=200, base_estimator=ExtraTreesClassifier(max_depth=4, n_estimators=10, n_jobs=-1), learning_rate=0.7)
+    clf.fit(X, y)
     return clf
 
 '''

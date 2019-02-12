@@ -29,7 +29,7 @@ def neuralNet(X, y, X_val = None, y_val = None):
     
     # Defaults. Found little benefit of changing.
     batch_size = 32
-    epochs = 10
+    epochs = 3
     if X_val is not None and y_val is not None:
         model.fit(X, y, batch_size=batch_size, epochs=epochs,
                   verbose=1, 

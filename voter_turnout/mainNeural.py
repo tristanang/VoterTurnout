@@ -23,18 +23,19 @@ file.close
 
 file = open( "data/target.pickle", "rb" )
 y = pickle.load(file)
+y = np.array(y)
 file.close
 
 # Separate validation and training set
 nTrain = int(len(y) * 0.9)
 skf = StratifiedKFold(n_splits=5)
 train_aucs, val_aucs = [], []
-#for train_index, test_index in skf.split(X, y):
-for train_index, test_index in [[list(range(nTrain)), list(range(nTrain, len(y)))],]:
+for train_index, test_index in skf.split(X, y):
+#for train_index, test_index in [[list(range(nTrain)), list(range(nTrain, len(y)))],]:
     X_train = X[train_index]
     X_val = X[test_index]
-    y_train = y.iloc[train_index]
-    y_val = y.iloc[test_index] 
+    y_train = y[train_index]
+    y_val = y[test_index] 
     
     
     # Train a model
@@ -42,11 +43,11 @@ for train_index, test_index in [[list(range(nTrain)), list(range(nTrain, len(y))
     clf = neuralNet.neuralNet(X_train, y_train, X_val, y_val)
     
     ## Printing the accuracy of our model, according to the loss function specified in model.compile above
-    score = model.evaluate(X_test, y_test, verbose=0)
-    in_sample_score = model.evaluate(X_train, y_train, verbose=0)
-    print('Test score:', score[0])
-    print('Test accuracy:', score[1])
-    print('In-sample accuracy:', in_sample_score[1])
+    #score = model.evaluate(X_test, y_test, verbose=0)
+    #in_sample_score = model.evaluate(X_train, y_train, verbose=0)
+    #print('Test score:', score[0])
+    #print('Test accuracy:', score[1])
+    #print('In-sample accuracy:', in_sample_score[1])
 
     
     # Classification accuracy
@@ -54,8 +55,8 @@ for train_index, test_index in [[list(range(nTrain)), list(range(nTrain, len(y))
     #val_acc = accuracy_score(clf.predict(X_val), y_val)
     
     # Area under the ROC curve
-    train_auc = roc_auc_score(y_train, clf.predict(X_train)[:, 1])
-    val_auc =  roc_auc_score(y_val, clf.predict(X_val)[:, 1])
+    train_auc = roc_auc_score(y_train, clf.predict(X_train))
+    val_auc =  roc_auc_score(y_val, clf.predict(X_val))
     
     train_aucs.append(train_auc)
     val_aucs.append(val_auc)
@@ -68,13 +69,14 @@ for train_index, test_index in [[list(range(nTrain)), list(range(nTrain, len(y))
     # Save classifier
     file = open(save_path + "clf.pickle", 'wb')
     pickle.dump(clf, file)
-    file.close()    
+    file.close()
     
     # Save results
     f = open(save_path + "results.txt", 'w')
      #"train accuracy: ", train_acc, "test accuracy: ", val_acc, \
     print(\
           "\ntrain AUC: ", train_auc, "test AUC: ", val_auc, \
+          "ave train AUC: ", np.mean(train_aucs), "ave test AUC: ", np.mean(val_aucs), \
           file = f)
     f.close()
     
